@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 45px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -10,4 +10,107 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.logo-text {
+    text-align: center;
+    height: 20px;
+    margin: 20px;
+}
+.vl {
+    border-left: 1px solid gray;
+}
+.message {
+    max-width: 75%;
+    padding: 5px 10px;
+    margin: 5px 10px;
+    background-color: white;
+    list-style: none;
+}
+
+.common-input {
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+}
+.width100 {
+    width: 100%;
+}
+
+.width250 {
+    min-width: 250px;
+    width: 250px;
+    max-width: 250px;
+}
+.width350 {
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position:fixed;
+  text-align: center;
+  background: white;
+  width: 80%;
+  height: auto;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+.inline-flex-row {
+    display: inline-flex;
+    flex-direction: row;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.inline-flex-column {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
