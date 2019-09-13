@@ -22,19 +22,11 @@ class SignupForm extends Component {
     }
     onSubmit = event => {
         const { signupEmail, signupPassword1 } = this.state;
-        this.props.firebase
-          .createUserWithEmailAndPassword(signupEmail, signupPassword1)
-          .then(authUser => {
-              return this.props.firebase
-              .user(authUser.user.uid)
-              .set(signupEmail);
-          })
-          .then(() => {
-              this.setState({ ...INITIAL_STATE });
-          })
-          .catch(error => {
-            this.setState({ error });
-          });
+        const { firebase } = this.props;
+        firebase.createUserWithEmailAndPassword(signupEmail, signupPassword1)
+        .then(authUser => firebase.user(authUser.user.uid).set(signupEmail) )
+        .then(() => { this.setState({ ...INITIAL_STATE }) })
+        .catch(error => { this.setState({ error }) });;
         event.preventDefault();
     }
     render() {

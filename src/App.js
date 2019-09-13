@@ -23,6 +23,21 @@ const getUserUid = (user) => user && user.uid;
 
 const areSameUsers = (userA, userB) => getUserUid(userA) && (getUserUid(userA) === getUserUid(userB));
 
+class Message {
+    constructor(senderUid, receiverUid, content) {
+        this.timestamp = new Date().getTime();
+        this.sender = senderUid;
+        this.receiver = receiverUid;
+        this.content = content;
+    }
+}
+class Notif {
+    constructor(messageid, channelid) {
+        this.messageid = messageid;
+        this.channelid = channelid;
+        this.seen = false;
+    }
+}
 
 class App extends Component {
     constructor(props) {
@@ -32,6 +47,7 @@ class App extends Component {
         firebase.auth.onAuthStateChanged( user => {
             // cleanup
             firebase.users().off();
+            // remove notif listner when user logged out (user is null, currentUser is previous logged in user)
             getUserUid(this.state.currentUser) && firebase.notif(getUserUid(this.state.currentUser)).off();
 
             // is user logged in?
@@ -74,21 +90,15 @@ class App extends Component {
     onMessageSubmit = message => {
         const { currentUser, selectedUser } = this.state;
         const { firebase } = this.props;
-        const newMessageRefka = firebase.channels().child(cid(selectedUser.uid, currentUser.uid)).push()
-        newMessageRefka.set({
-            timestamp: new Date().getTime(),
-            sender: currentUser.uid,
-            receiver: selectedUser.uid,
-            content: message
-        }, console.log)
+        console.log(`Sending new message from ${currentUser.email} to ${selectedUser.email}`);
+        const channelid = cid(selectedUser.uid, currentUser.uid);
+        const newMessageRef = firebase.channels().child(channelid).push();
+        newMessageRef.set(new Message(currentUser.uid, selectedUser.uid, message), console.log)
         .then(() => {
-            if (!areSameUsers(selectedUser, currentUser)){
-            firebase.notifs().child(selectedUser.uid).child(currentUser.uid).update({
-                messageid: newMessageRefka.key,
-                channelid: cid(selectedUser.uid, currentUser.uid),
-                seen: false
-            }, console.log);
-        }
+            if (!areSameUsers(selectedUser, currentUser)) {
+                console.log(`Sending new notif from ${currentUser.email} to ${selectedUser.email}`)
+                firebase.notifs().child(selectedUser.uid).child(currentUser.uid).update(new Notif(newMessageRef.key,channelid), console.log);
+            }
         });
     }
 

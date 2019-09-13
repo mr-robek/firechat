@@ -21,10 +21,8 @@ class Firebase {
 
     createUserWithEmailAndPassword = (email, password) =>
         this.auth.createUserWithEmailAndPassword(email,password);
-
     signInWithEmailAndPassword = (email, password) =>
         this.auth.signInWithEmailAndPassword(email, password);
-
     signOut = () =>
         this.auth.signOut();
 
@@ -32,7 +30,6 @@ class Firebase {
         this.database.ref('users');
     user = (uid) =>
         this.database.ref(`users/${uid}`);
-
 
     channels = () =>
         this.database.ref('channels');

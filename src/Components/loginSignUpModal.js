@@ -3,6 +3,7 @@ import Modal from "./modal";
 import LoginForm from "./loginForm";
 import SignupForm from "./signupForm";
 import Loader from './loader'
+
 class LoginSignUpModal extends Component {
 
     render() {

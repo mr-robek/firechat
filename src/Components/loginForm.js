@@ -18,14 +18,10 @@ class LoginForm extends Component {
     }
     onSubmit = event => {
         const { loginEmail, loginPassword } = this.state;
-        this.props.firebase
-          .signInWithEmailAndPassword(loginEmail, loginPassword)
-          .then(authUser => {
-            this.setState({ ...INITIAL_STATE });
-          })
-          .catch(error => {
-            this.setState({ error });
-          });
+        const { firebase } = this.props;
+        firebase.signInWithEmailAndPassword(loginEmail, loginPassword)
+        .then(authUser => { this.setState({ ...INITIAL_STATE }) })
+        .catch(error => { this.setState({ error }) });
         event.preventDefault();
     }
     render() {

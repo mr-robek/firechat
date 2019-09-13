@@ -16,8 +16,8 @@ class FriendsBox extends Component {
                     { (!currentUser || !users ) && <Loader/> }
                         { currentUser && Object.entries(users || {}).map(v =>
                             <li key={v[0]}>
+                                <span style={{color: "var(--focus-color)", marginLeft: shouldNotify(v[0]) ? "-25px" : "18px"}}>{ shouldNotify(v[0]) && " [new] " }</span>
                                 <a href="#" onClick={ () => onUserSelected({uid: v[0], email: v[1]}) }>{v[1]}</a>
-                                <span style={{color: "var(--focus-color)"}}><sup>{ shouldNotify(v[0]) && " [new]" }</sup></span>
                             </li>
                         )}
                     </ul>
