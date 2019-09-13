@@ -1,4 +1,4 @@
-## Firechat 
+## Firechat
 
 Simple chat between users using Firebase platform. Chat have the following options
 
@@ -6,7 +6,7 @@ Simple chat between users using Firebase platform. Chat have the following optio
 - write a text messages to other users
 - being notified in real-time about incomming messages
 
-This project is deployed here: [http://localhost:3000](http://localhost:3000)
+This project is deployed here: [https://firechat-bfe58.firebaseapp.com/](https://firechat-bfe58.firebaseapp.com/)
 
 ### `npm start`
 
