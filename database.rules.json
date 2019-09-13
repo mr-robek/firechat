@@ -1,0 +1,28 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth.uid != null",
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "channels": {
+      "$channelid": {
+        ".write": "auth.uid != null && $channelid.contains(auth.uid)",
+        ".read": "auth.uid != null && $channelid.contains(auth.uid)",
+        "$messageid": {
+          ".read": "$channelid.contains(data.child('sender').val()) || $channelid.contains(data.child('receiver').val())",
+          ".write": "$channelid.contains(newData.child('sender').val()) || $channelid.contains(newData.child('receiver').val())"
+        }
+      }
+    },
+    "notifs": {
+      "$receiverUid": {
+        ".read": "$receiverUid === auth.uid",
+        "$senderUid": {
+          ".write": "root.child('channels').hasChild(newData.child('channelid').val()) && root.child('channels').child(newData.child('channelid').val()).hasChild(newData.child('messageid').val()) && ($senderUid === auth.uid && root.child('channels').child(newData.child('channelid').val()).child(newData.child('messageid').val()).child('sender').val() === auth.uid) || $receiverUid === auth.uid"
+        }
+      }
+    }
+  }
+}

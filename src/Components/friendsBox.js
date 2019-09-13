@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
 import  { withFirebase } from '../Firebase';
 import StatusBar from './statusBar';
+import Loader from './loader';
 
 class FriendsBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: null,
-            selectedUser: null
-        };
-    }
-    componentDidMount() {
-        this.props.firebase.users().on("value", snapshot => {
-            this.setState({users: snapshot.val()});
-        })
-    }
-
     render() {
+        const {onUserSelected, selectedUser, currentUser, users, notifs} = this.props;
+        const shouldNotify = (uid) => (!selectedUser || selectedUser.uid !== uid) && notifs && notifs[uid] && !notifs[uid].seen;
         return (
             <div className="width350 vl">
                 <h3 className="logo-text">FireChat</h3>
                 <div style={{overflowY: "auto", height: "400px"}}>
-                    { (!this.props.currentUser || !this.state.users) && <p style={{textAlign: "center"}}>N/A</p> }
-                    <ul>
-                        { this.props.currentUser && Object.entries(this.state.users || {}).map(v =>
-                            <li key={v[0]}><a href="#" onClick={ () => this.props.onUserSelected({uid: v[0], email: v[1]}) }>{v[1]}</a></li>
+                <h5 style={{paddingLeft: "25px"}}>USERS:</h5>
+                <ul style={{listStyle: "none"}}>
+                    { (!currentUser || !users ) && <Loader/> }
+                        { currentUser && Object.entries(users || {}).map(v =>
+                            <li key={v[0]}>
+                                <a href="#" onClick={ () => onUserSelected({uid: v[0], email: v[1]}) }>{v[1]}</a>
+                                <span style={{color: "var(--focus-color)"}}><sup>{ shouldNotify(v[0]) && " [new]" }</sup></span>
+                            </li>
                         )}
                     </ul>
                 </div>
-                <StatusBar currentUser={this.props.currentUser}/>
+                <StatusBar currentUser={currentUser}/>
             </div>
         )
     }

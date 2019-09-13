@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Modal from "./modal";
 import LoginForm from "./loginForm";
 import SignupForm from "./signupForm";
-
+import Loader from './loader'
 class LoginSignUpModal extends Component {
 
     render() {
         const { currentUser, onAuthStateChanged } = this.props;
         const modalBody =
             onAuthStateChanged ?
-            <div>
+            <div style={{color: "black"}}>
                 <h3> Welcome to Firechat v0.0.1. Please login or signup to start chatting.</h3>
                 <div className="inline-flex-row">
                     <LoginForm/>
@@ -17,7 +17,7 @@ class LoginSignUpModal extends Component {
                     <SignupForm/>
                 </div>
             </div> :
-            <h3>Loading...</h3>;
+            <Loader/>
 
         return (
             <Modal show={!currentUser}>

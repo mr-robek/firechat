@@ -1,9 +1,5 @@
-import Ract, { Component } from 'react';
+import React from 'react';
 
-function Loader() {
-    return (
-        <div className="lds-dual-ring"/>
-    )
-}
+const Loader = ({style}) => (<div className="lds-dual-ring" style={style}></div>)
 
 export default Loader;

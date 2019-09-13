@@ -3,14 +3,15 @@ import 'firebase/auth';
 import 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCcX8W1qdsD_EAfZ-l4x_FnrhIDPHBYBAw",
-  authDomain: "firechat-bfe58.firebaseapp.com",
-  databaseURL: "https://firechat-bfe58.firebaseio.com",
-  projectId: "firechat-bfe58",
-  storageBucket: "",
-  messagingSenderId: "535484116295",
-  appId: "1:535484116295:web:c43bf4b9a31a76ffe27062"
+    apiKey: "AIzaSyCcX8W1qdsD_EAfZ-l4x_FnrhIDPHBYBAw",
+    authDomain: "firechat-bfe58.firebaseapp.com",
+    databaseURL: "https://firechat-bfe58.firebaseio.com",
+    projectId: "firechat-bfe58",
+    storageBucket: "",
+    messagingSenderId: "535484116295",
+    appId: "1:535484116295:web:c43bf4b9a31a76ffe27062"
 };
+
 class Firebase {
     constructor() {
         app.initializeApp(firebaseConfig);
@@ -27,16 +28,21 @@ class Firebase {
     signOut = () =>
         this.auth.signOut();
 
+    users = () =>
+        this.database.ref('users');
     user = (uid) =>
         this.database.ref(`users/${uid}`);
 
-    users = () =>
-        this.database.ref('users');
 
     channels = () =>
         this.database.ref('channels');
     channel = (cid) =>
         this.database.ref(`channels/${cid}`);
+
+    notifs = () =>
+        this.database.ref('notifs');
+    notif = (uid) =>
+        this.database.ref(`notifs/${uid}`);
 }
 
 export default Firebase;

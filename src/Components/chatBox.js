@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import  { withFirebase } from '../Firebase';
 
-const ANNONYMOUS = {
-    email: "Annonymous"
-}
-
 class ChatBox extends Component {
 
     constructor(props) {
@@ -30,13 +26,14 @@ class ChatBox extends Component {
 
     selectChatInfo = () => {
         const { currentUser, selectedUser } = this.props;
-        return currentUser && !selectedUser && <p style={{paddingLeft: "25px"}}> Please select a chat to start messaging</p>;
+        return (currentUser && !selectedUser) ? "Please select a chat to start messaging" : ""
     }
 
     chatWithInfo() {
         const { currentUser, selectedUser } = this.props;
-        return currentUser && selectedUser && <p style={{paddingLeft: "25px"}}>Chat with {selectedUser.email}</p>;
+        return (currentUser && selectedUser) ? `Chat with ${selectedUser.email}` : ""
     }
+
     onSubmit = event => {
         event.preventDefault();
         const { onMessageSubmit } = this.props;
@@ -44,20 +41,22 @@ class ChatBox extends Component {
         this.setState({message: ''});
     }
     render() {
+        const didISend = message => message.sender === this.props.currentUser.uid;
+
         return (
             <div style={{ flexGrow: 1 }}>
-            { this.chatWithInfo() || this.selectChatInfo()}
-            <div style={{height: "465px", overflowY: "scroll", backgroundColor: "whitesmoke"}}>
+            <p className="chat-hint">{ this.chatWithInfo() || this.selectChatInfo() || " " }</p>
+            <div style={{height: "465px", overflowY: "scroll", backgroundColor: "#2c3e50", color: "white"}}>
                 <ul className="flex-column" style={{flexGrow: 1}}>
-            { Object.entries(this.props.chatBoxMessages || {}).map(v =>
-                <li className="message" style={{alignSelf: v[1].receiver === this.props.currentUser.uid ? "flex-start" : "flex-end"}} key={v[0]}>{v[1].content}</li>
-            )}
+                { this.props.currentUser && Object.entries(this.props.chatBoxMessages || {}).map(v =>
+                    <li className="message" style={{alignSelf: didISend(v[1]) ? "flex-end" : "flex-start"}} key={v[0]}>{v[1].content}</li>
+                )}
             </ul>
             <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}/>
             </div>
-            <form style={{display: "flex"}} onSubmit={this.onSubmit}>
-            <input type="text" style={{ width:"100%", height: "30px"}} name="message" onChange={this.onChange} value={this.state.message}/>
-            <button style={{width: "100px"}} disabled={!this.props.selectedUser}>Send</button>
+            <form className="flex-row message-form" onSubmit={this.onSubmit}>
+            <input type="text" className="message-input" autoComplete="off" placeholder="Write a message..." name="message" onChange={this.onChange} value={this.state.message}/>
+            <button className="message-button" disabled={!this.props.selectedUser || !this.state.message}>Send</button>
             </form>
             </div>
         )
